@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mx-auto mt-2 p-3" style="box-shadow: 0px 0px 10px gray;">
+            <div class="card" style="width: 20rem;">
+                <img class="card-img-top" src="{{data.profile_pic.url}}" alt="Card image cap" style="max-height: 200px; min-height: 200px;">
+                
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>User Type : {{data.user_type}}</b></li>
+                  <li class="list-group-item">First Name : {{data.user.first_name}}</li>
+                  <li class="list-group-item">Last Name : {{data.user.last_name}}</li>
+                  <li class="list-group-item">Username : {{data.user.username}}</li>
+                  <li class="list-group-item">Email : {{data.user.email}}</li>
+                  <li class="list-group-item">Address : {{data.address}}</li>
+                </ul>
+                
+              </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
