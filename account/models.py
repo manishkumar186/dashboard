@@ -9,3 +9,22 @@ class Register(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Blog(models.Model):
+    status = (
+        ("Draft","Draft"),
+        ("Published","Published")
+    )
+    title = models.CharField(max_length=250,unique=True)
+    image = models.ImageField(upload_to='blogimage/%Y/%m/%d/')
+    category = models.CharField(max_length=250)
+    summary = models.CharField(max_length=250)
+    content = models.TextField(null=True)
+    doctor_id = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    draft = models.CharField(choices=status,null=True,max_length=50)
+
+    created_on = models.DateTimeField(auto_now_add=True,null=True)
+    updated_on = models.DateTimeField(auto_now=True,null=True)
+
+    def __str__(self):
+        return self.title

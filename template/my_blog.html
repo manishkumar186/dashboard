@@ -1,0 +1,21 @@
+{% extends 'dashboard.html' %}
+
+{% block myblock %}
+{% for data in data %}
+<div class="col-md-3 my-2">
+    <div class="card mb-3" style="box-shadow: 0px 0px 10px gray;">
+        <img class="card-img-top" src="{{data.image.url}}" alt="Card image cap">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <h5 class="card-title"><li class="list-group-item">Title: <i>{{data.title}}</i></li></h5>
+                <h5 class="card-text"><li class="list-group-item">Category: <i>{{data.category}}</i></li></h5>
+                <h5 class="card-title"><li class="list-group-item">Summary: <i>{{data.summary|slice:"0:15"}} .....</i></li></h5>
+                <h5 class="card-title"><li class="list-group-item">Content: <i>{{data.content|slice:"0:50"}} ....</i></li></h5>
+                <li class="list-group-item">{{data.created_on}}</li>
+              </ul>
+            <a href="{% url 'account:read_full_article' data.id %}" class="card-link">Read full article</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

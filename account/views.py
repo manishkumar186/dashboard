@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from account.models import Register
+from account.models import Register,Blog
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -33,12 +33,12 @@ def register(request):
         confirm_password = request.POST["confirm_password"]
         address = request.POST["address"]
         user_types = request.POST["type"]
-
         if "profile" in request.FILES:
-            profile_pic = request.FILES["profile"]
-
+            profile_pic = request.FILES["profile"]        
         if password == confirm_password:
             objects = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
+            if user_types == "doctor":
+                objects.is_staff = True
             objects.save()
             create_account = Register(user=objects,address=address,user_type=user_types,profile_pic=profile_pic)
             create_account.save()
@@ -50,12 +50,54 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    if request.user.is_authenticated:
-        id = request.user.id
-        detail = Register.objects.get(user__id=id)
-        
-    return render(request,"dashboard.html",{"data":detail})
+    return render(request,"dashboard.html")
 
 def logout(request):
     auth.logout(request)
     return redirect("/")
+
+
+@login_required
+def profile(request):
+    if request.user.is_authenticated:
+        id = request.user.id
+        detail = Register.objects.get(user__id=id)
+    return render(request,"profile.html",{"data":detail})
+
+@login_required
+def create_blog(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        if request.FILES:
+            image = request.FILES["image"]
+        category = request.POST["category"]
+        summary = request.POST["summary"]
+        content = request.POST["content"]
+        draft = request.POST["draft"]
+        doctor_id = User.objects.get(id=request.user.id)
+        create_blog = Blog.objects.create(title=title,image=image,category=category,summary=summary,content=content,draft=draft,doctor_id=doctor_id)
+        create_blog.save()
+        return render(request,"create_blog.html",{"status":"Blog created successfully.."})
+    return render(request,"create_blog.html")
+
+@login_required
+def my_blog(request):
+    if request.user.is_authenticated:
+        my_blog = Blog.objects.filter(doctor_id=request.user.id)
+    return render(request,"my_blog.html",{"data":my_blog})
+
+@login_required
+def read_full_article(request,id):
+    full_data = Blog.objects.get(id=id)
+    data={
+        "full_data":full_data,
+    }
+    return render(request,"read_full_article.html",data)
+
+@login_required
+def all_blog(request):
+    publish_post = Blog.objects.filter(draft="Published")
+    data = {
+        "publish_post":publish_post
+    }
+    return render(request,"all_blog.html",data)

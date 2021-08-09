@@ -1,0 +1,63 @@
+{% extends 'dashboard.html' %}
+
+{% block myblock %}
+<div class="col-md-6 p-3 my-2 mx-auto" style="box-shadow: 0px 0px 10px gray;">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Title</label>
+                    <input type="text" class="form-control" required name="title" placeholder="Title">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Image</label>
+                    <input type="file" class="form-control" required name="image">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">Category</label>
+                    <select name="category" id="" class="form-control">
+                        <option value="Mental Health">Mental Health</option>
+                        <option value="Heart Disease">Heart Disease</option>
+                        <option value="Covid-19">Covid-19</option>
+                        <option value="Immunization">Immunization</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label for="">Summary</label>
+                    <input type="text" class="form-control" required name="summary" placeholder="Summary">
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="form-group">
+            <label for="">Content</label>
+            <textarea name="content" id="" cols="10" rows="10" placeholder="Content of the Blog" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="">Draft</label>
+            <select name="draft" id="" class="form-control">
+                <option value="Published">Published</option>
+                <option value="Draft">Draft</option>
+                
+            </select>
+        </div>
+        
+        <input type="submit" value="Create Blog" class="btn btn-success">
+    </form>
+</div>
+{% if status %}
+<script>
+alert("{{status}}")
+</script>
+{% endif %}
+{% endblock %}

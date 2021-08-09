@@ -9,8 +9,9 @@
     <title>Register</title>
 
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'bootstrap/jquery.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    
 </head>
 
 <body>
@@ -31,7 +32,7 @@
                             </li>
                             {% if request.user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'account:logout' %}">Logout</a>
+                                <a class="nav-link" href="{% url 'account:dashboard' %}">Dashboard</a>
                             </li>
                             {% else %}
                             <li class="nav-item">
