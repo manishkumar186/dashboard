@@ -1,0 +1,39 @@
+{% extends 'dashboard.html' %}
+
+{% block myblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto my-2 p-3" style="box-shadow: 0px 0px 10px gray;">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">Required  Speciality</label>
+                    <select name="speciality" id="" required class="form-control">
+                        <option value="dentist">Dentist</option>
+                        <option value="eye_surgery">Eye Surgery</option>
+                        <option value="general_seugery">General Surgery</option>
+                        <option value="bone">Bone</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Date of Appointment</label>
+                    <input type="date" class="form-control" required name="date">
+                </div>
+                <div class="form-group">
+                    <label for="">Start time of Appointment</label>
+                    <input type="time" class="form-control" required name="time">
+                </div>
+                <small><i><b>Note:</b> Each appointment will be 45 minutes.</i></small> <br>
+                <input type="hidden" value="{{data.first_name}} {{data.last_name}}" name="doctor_name">
+                <input type="submit" class="btn btn-success" value="submit">
+            </form>
+
+        </div>
+    </div>
+</div>
+{% if status %}
+<script>
+alert("{{status}}")
+</script>
+{% endif %}
+{% endblock %}

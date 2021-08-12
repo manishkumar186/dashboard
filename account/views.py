@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from account.models import Register,Blog
+from account.models import Register,Blog,Appointment
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+
 
 def home(request):
     return render(request,"home.html")
@@ -101,3 +102,41 @@ def all_blog(request):
         "publish_post":publish_post
     }
     return render(request,"all_blog.html",data)
+
+@login_required
+def all_doctor_detail(request):
+    doctor_detail = Register.objects.filter(user__is_staff=True)
+    return render(request,"doctor_detail.html",{"data":doctor_detail})
+
+@login_required
+def book_appointment(request,id):
+    if request.method == "POST":
+        specialist = request.POST["speciality"]
+        date_of_appointment = request.POST["date"]
+        time_of_appointment = request.POST["time"]
+        doctor_name = request.POST["doctor_name"]
+
+        doctor_detail = User.objects.get(id=id)
+        doctor_first_name = doctor_detail.first_name
+        doctor_last_name = doctor_detail.last_name
+
+        doctor_full_name = doctor_first_name+" "+doctor_last_name
+
+
+        patent_info = User.objects.get(id=request.user.id)
+
+        appointment_data = Appointment.objects.create(speciality=specialist,appointment_date=date_of_appointment,appointment_time=time_of_appointment,patient_name=patent_info,doctor_name=doctor_full_name)
+        appointment_data.save()
+        status = {
+            "status":"Your appointment successfully..."
+        }
+
+        return render(request,"appointment_form.html",status)
+
+    return render(request,"appointment_form.html")
+
+@login_required
+def my_appointment(request):
+    appointment_detail = Appointment.objects.filter(patient_name=request.user.id)
+    return render(request,"my_appointment.html",{"data":appointment_detail})
+

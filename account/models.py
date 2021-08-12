@@ -26,5 +26,16 @@ class Blog(models.Model):
     created_on = models.DateTimeField(auto_now_add=True,null=True)
     updated_on = models.DateTimeField(auto_now=True,null=True)
 
+
     def __str__(self):
         return self.title
+
+class Appointment(models.Model):
+    speciality = models.CharField(max_length=250)
+    appointment_date = models.CharField(max_length=250)
+    appointment_time = models.CharField(max_length=250)
+    patient_name = models.ForeignKey(User,on_delete=models.CASCADE)
+    doctor_name = models.CharField(max_length=250)
+    
+    def __str__(self):
+        return self.patient_name.first_name+" "+self.patient_name.last_name

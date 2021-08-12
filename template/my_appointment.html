@@ -1,0 +1,20 @@
+{% extends 'dashboard.html' %}
+
+{% block myblock %}
+        {% for data in data %}
+        <div class="col-md-3 my-2">
+            <div class="card mb-3" style="box-shadow: 0px 0px 10px gray;">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <h5 class="card-title"><li class="list-group-item">Doctor Name: <i>{{data.doctor_name}}</i></li></h5>
+                        <h5 class="card-title"><li class="list-group-item">Appointment Date: <i>{{data.appointment_date}}</i></li></h5>
+                        <h5 class="card-title"><li class="list-group-item">Appointment start time: <i>{{data.appointment_time}}</i></li></h5>
+                        <small><i><b>Note:</b> Each appointment will be 45 minutes.</i></small>
+                        <li class="list-group-item"></li>
+                      </ul>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+{% endblock %}
